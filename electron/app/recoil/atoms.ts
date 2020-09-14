@@ -1,5 +1,10 @@
 import { atom, atomFamily } from "recoil";
 
+export const showGlobalNav = atom({
+  key: "showGlobalNav",
+  default: false,
+});
+
 export const port = atom({
   key: "port",
   default: parseInt(process.env.FIFTYONE_SERVER_PORT) || 5151,

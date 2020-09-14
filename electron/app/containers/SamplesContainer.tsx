@@ -79,48 +79,40 @@ const DisplayOptionsWrapper = (props) => {
 
   return (
     <Grid.Column className="sidebar-column">
-      <Sticky
-        context={containerRef}
-        offset={headerHeight}
-        styleElement={{
-          paddingTop: "1rem",
+      <DisplayOptionsSidebar
+        tags={getDisplayOptions(
+          tagNames.map((t) => ({ name: t })),
+          tagSampleCounts,
+          activeTags
+        )}
+        labels={getDisplayOptions(
+          labelNameGroups.labels,
+          labelSampleCounts,
+          activeLabels
+        )}
+        onSelectTag={handleSetDisplayOption(setActiveTags)}
+        onSelectLabel={handleSetDisplayOption(setActiveLabels)}
+        scalars={getDisplayOptions(
+          labelNameGroups.scalars,
+          labelSampleCounts,
+          activeOther
+        )}
+        onSelectScalar={handleSetDisplayOption(setActiveOther)}
+        unsupported={getDisplayOptions(
+          labelNameGroups.unsupported,
+          labelSampleCounts,
+          activeLabels
+        )}
+        style={{
+          maxHeight: sidebarHeight,
+          overflowY: "auto",
+          overflowX: "hidden",
+          paddingRight: 25,
+          marginRight: -25,
+          scrollbarWidth: "thin",
         }}
-      >
-        <DisplayOptionsSidebar
-          tags={getDisplayOptions(
-            tagNames.map((t) => ({ name: t })),
-            tagSampleCounts,
-            activeTags
-          )}
-          labels={getDisplayOptions(
-            labelNameGroups.labels,
-            labelSampleCounts,
-            activeLabels
-          )}
-          onSelectTag={handleSetDisplayOption(setActiveTags)}
-          onSelectLabel={handleSetDisplayOption(setActiveLabels)}
-          scalars={getDisplayOptions(
-            labelNameGroups.scalars,
-            labelSampleCounts,
-            activeOther
-          )}
-          onSelectScalar={handleSetDisplayOption(setActiveOther)}
-          unsupported={getDisplayOptions(
-            labelNameGroups.unsupported,
-            labelSampleCounts,
-            activeLabels
-          )}
-          style={{
-            maxHeight: sidebarHeight,
-            overflowY: "auto",
-            overflowX: "hidden",
-            paddingRight: 25,
-            marginRight: -25,
-            scrollbarWidth: "thin",
-          }}
-          ref={sidebarRef}
-        />
-      </Sticky>
+        ref={sidebarRef}
+      />
     </Grid.Column>
   );
 };
@@ -152,21 +144,13 @@ const SamplesContainer = (props) => {
 
   return (
     <Root ref={containerRef} showSidebar={showSidebar}>
-      <Sticky
-        ref={stickyHeaderRef}
-        context={containerRef}
-        styleElement={{
-          background: theme.background,
-        }}
-      >
-        <ViewBar />
-        <ImageContainerHeader
-          datasetName={datasetName}
-          total={numSamples}
-          showSidebar={showSidebar}
-          onShowSidebar={setShowSidebar}
-        />
-      </Sticky>
+      <ViewBar />
+      <ImageContainerHeader
+        datasetName={datasetName}
+        total={numSamples}
+        showSidebar={showSidebar}
+        onShowSidebar={setShowSidebar}
+      />
       <Grid>
         {showSidebar ? (
           <DisplayOptionsWrapper

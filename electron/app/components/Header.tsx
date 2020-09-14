@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
+import { animated, useSpring } from "react-spring";
+import { useRecoilValue, useRecoilState } from "recoil";
 
 import ExternalLink from "./ExternalLink";
+import * as atoms from "../recoil/atoms";
 import * as selectors from "../recoil/selectors";
 import logo from "../logo.png";
 import { GitHub, MenuBook } from "@material-ui/icons";
@@ -21,15 +23,20 @@ const LogoDiv = styled.div`
   margin: 1rem 1rem 1rem 2rem;
 `;
 
-const LogoImg = styled.img`
+const LogoWrapper = styled.div`
   height: 100%;
-  width: auto;
   margin-top: 2px;
   padding: 0.25rem 1rem 0.25rem 0;
   border-right-width: 1px;
   border-color: ${({ theme }) => theme.backgroundDarkBorder};
   border-right-style: solid;
 `;
+
+const LogoImg = animated(styled.img`
+  height: 100%;
+  width: auto;
+  cursor: pointer;
+`);
 
 const LeftDiv = styled.div`
   display: flex;
@@ -80,12 +87,23 @@ const IconWrapper = styled.div`
 
 const Header = () => {
   const datasetNameValue = useRecoilValue(selectors.datasetName);
+  const [showGlobalNav, setShowGlobalNav] = useRecoilState(atoms.showGlobalNav);
+
+  const logoProps = useSpring({
+    transform: showGlobalNav ? `rotate(0turn)` : `rotate(1turn)`,
+  });
 
   return (
     <HeaderDiv>
       <LeftDiv>
         <LogoDiv>
-          <LogoImg src={logo} />
+          <LogoWrapper>
+            <LogoImg
+              style={logoProps}
+              onClick={() => setShowGlobalNav(!showGlobalNav)}
+              src={logo}
+            />
+          </LogoWrapper>
         </LogoDiv>
         <TitleDiv>
           <FiftyOneDiv>FiftyOne</FiftyOneDiv>
