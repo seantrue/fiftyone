@@ -1,6 +1,10 @@
 import { atom, atomFamily } from "recoil";
-
 import { SelectedObjectMap } from "../utils/selection";
+
+export const showGlobalNav = atom({
+  key: "showGlobalNav",
+  default: false,
+});
 
 export const port = atom({
   key: "port",

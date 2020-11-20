@@ -12,7 +12,6 @@ import { useEventHandler } from "../utils/hooks";
 import { convertSampleToETA } from "../utils/labels";
 
 import * as atoms from "../recoil/atoms";
-import * as selectors from "../recoil/selectors";
 
 const InfoWrapper = styled.div`
   display: flex;
@@ -62,6 +61,7 @@ export default ({
   const filter = useRecoilValue(filterSelector);
   const fps = useRecoilValue(atoms.sampleFrameRate(sample._id));
   const colorMap = useRecoilValue(atoms.colorMap);
+
   if (overlay === null) {
     overlay = convertSampleToETA(sample, fieldSchema);
   }

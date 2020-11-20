@@ -1,6 +1,5 @@
 import { remote, ipcRenderer } from "electron";
-import React, { ReactNode, useState, useRef, useEffect } from "react";
-import { Button, Modal } from "semantic-ui-react";
+import React, { ReactNode, useState, useRef } from "react";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import { ErrorBoundary } from "react-error-boundary";
 import NotificationHub from "../components/NotificationHub";
@@ -8,7 +7,6 @@ import ReactGA from "react-ga";
 import styled from "styled-components";
 
 import Header from "../components/Header";
-import PortForm from "../components/PortForm";
 
 import {
   useEventHandler,
@@ -21,6 +19,7 @@ import { convertSelectedObjectsListToMap } from "../utils/selection";
 import gaConfig from "../constants/ga.json";
 import Error from "./Error";
 import { scrollbarStyles } from "../components/utils";
+import GlobalNav from "../components/GlobalNav";
 
 type Props = {
   children: ReactNode;
@@ -33,6 +32,12 @@ const Body = styled.div`
   flex-grow: 1;
   display: flex:
   flex-direction: column;
+`;
+
+const AppContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  height: 100%;
 `;
 
 const useGA = () => {
@@ -121,32 +126,13 @@ function App(props: Props) {
       onReset={() => setReset(true)}
       resetKeys={[reset]}
     >
-      <Header />
-      <Body>
-        {children}
-        <Modal
-          trigger={
-            <Button
-              style={{ padding: "1rem", display: "none" }}
-              ref={portRef}
-            ></Button>
-          }
-          size="tiny"
-          onClose={() => setPort(result.port)}
-        >
-          <Modal.Header>Port number</Modal.Header>
-          <Modal.Content>
-            <Modal.Description>
-              <PortForm
-                setResult={setResultFromForm}
-                connected={connected}
-                port={port}
-                invalid={false}
-              />
-            </Modal.Description>
-          </Modal.Content>
-        </Modal>
-      </Body>
+      <AppContainer>
+        <GlobalNav />
+        <Body>
+          <Header />
+          {children}
+        </Body>
+      </AppContainer>
       <NotificationHub children={(add) => (addNotification.current = add)} />
     </ErrorBoundary>
   );

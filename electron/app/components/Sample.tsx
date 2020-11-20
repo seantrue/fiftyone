@@ -108,7 +108,7 @@ const useHoverLoad = (socket, sample) => {
   return [bar, onMouseEnter, onMouseLeave];
 };
 
-const Sample = ({ sample, metadata, setView }) => {
+const Sample = React.memo(({ sample, metadata, setView }) => {
   const port = useRecoilValue(atoms.port);
   const host = `http://127.0.0.1:${port}/filepath`;
   const id = sample._id;
@@ -262,6 +262,6 @@ const Sample = ({ sample, metadata, setView }) => {
       ))}
     </SampleDiv>
   );
-};
+});
 
 export default Sample;
